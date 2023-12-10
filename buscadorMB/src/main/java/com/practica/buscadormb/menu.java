@@ -5,6 +5,7 @@
  */
 package com.practica.buscadormb;
 
+import java.awt.HeadlessException;
 import javax.swing.JOptionPane;
 import org.apache.solr.client.solrj.SolrClient;
 import org.apache.solr.client.solrj.SolrQuery;
@@ -23,7 +24,7 @@ public class menu extends javax.swing.JFrame {
      */
     public menu() {
         initComponents();
-        descripcionPanel.setEditable(false);
+        textInfo.setEditable(false);
     }
 
     /**
@@ -40,8 +41,9 @@ public class menu extends javax.swing.JFrame {
         buscaBtn = new javax.swing.JButton();
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        descripcionPanel = new javax.swing.JTextPane();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        textInfo = new javax.swing.JTextArea();
+        totalDocumentos = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -64,29 +66,35 @@ public class menu extends javax.swing.JFrame {
 
         jLabel2.setText("Campo");
 
-        jScrollPane1.setViewportView(descripcionPanel);
+        textInfo.setColumns(20);
+        textInfo.setRows(5);
+        jScrollPane2.setViewportView(textInfo);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(136, 136, 136)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(palabraBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(buscaBtn)))
-                .addContainerGap(328, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
+                        .addGap(136, 136, 136)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel1)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(palabraBusca, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(buscaBtn))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(55, 55, 55)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 609, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(112, 112, 112)
+                        .addComponent(totalDocumentos, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,9 +108,11 @@ public class menu extends javax.swing.JFrame {
                     .addComponent(palabraBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(buscaBtn)
                     .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 147, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(30, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(totalDocumentos, javax.swing.GroupLayout.PREFERRED_SIZE, 18, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
         );
 
         pack();
@@ -115,25 +125,31 @@ public class menu extends javax.swing.JFrame {
     private void buscaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaBtnActionPerformed
         // TODO add your handling code here:
         String palabra = palabraBusca.getText();
-        if (palabra != null) {
-            JOptionPane.showMessageDialog(null, "Error: Introduce una palabra a busca...");
-        } else {
-            String solrUrl = "http://localhost:8983/solr/micoleccion";
+        try {
+            if (palabra.isBlank()) {
+                JOptionPane.showMessageDialog(null, "Error: Introduce una palabra a buscar...");
+            } else {
+                String solrUrl = "http://localhost:8983/solr/micoleccion";
 
-            try ( SolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build()) {
-                SolrQuery sQ = new SolrQuery();
-                sQ.setQuery("name:" + palabra);
+                try ( SolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build()) {
+                    SolrQuery sQ = new SolrQuery();
+                    sQ.setQuery("name:" + palabra);
 
-                QueryResponse response = solrClient.query(sQ);
-                // Procesar los resultados
-                System.out.println("Documentos que contienen '" + palabra + "':");
-                SolrDocumentList docs = response.getResults();
-                for (int i = 0; i < docs.size(); ++i) {
-                    System.out.println(docs.get(i));
+                    QueryResponse response = solrClient.query(sQ);
+                    // Procesar los resultados
+                    System.out.println("Documentos que contienen '" + palabra + "':");
+                    SolrDocumentList docs = response.getResults();
+                    totalDocumentos.setText("Resultados encontrados: " + docs.size());
+                    for (int i = 0; i < docs.size(); ++i) {
+                        System.out.println(docs.get(i));
+                        textInfo.append(docs.get(i).values().toString() + "\n");
+                    }
+                } catch (Exception e) {
                 }
-            } catch (Exception e) {
             }
+        } catch (HeadlessException e) {
         }
+
     }//GEN-LAST:event_buscaBtnActionPerformed
 
     /**
@@ -173,11 +189,12 @@ public class menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscaBtn;
-    private javax.swing.JTextPane descripcionPanel;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField palabraBusca;
+    private javax.swing.JTextArea textInfo;
+    private javax.swing.JLabel totalDocumentos;
     // End of variables declaration//GEN-END:variables
 }
