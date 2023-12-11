@@ -5,5 +5,5 @@
 - Crear un core (micoleccion) mediante el comando:
 > solr.cmd create -c micoleccion
 -  Cargar documentos a nuestro core, recuerde usar la ruta correcta:
->  java -Dc=micoleccion -Dauto -jar ..\example\exampledocs\post.jar  ..\example\exampledocs\ *.xml
+>  java -Dc=micoleccion -Dauto -jar ..\example\exampledocs\post.jar  ..\example\exampledocs\*.xml
 
