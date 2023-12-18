@@ -87,3 +87,13 @@
 2023-12-12 17:54:56.216 INFO  (qtp1677207406-66) [ x:micoleccion] o.a.s.c.S.Request webapp=/solr path=/select params={q=name:hard&wt=javabin&version=2} hits=2 status=0 QTime=0
 2023-12-12 17:54:56.888 INFO  (qtp1677207406-40) [ x:micoleccion] o.a.s.c.S.Request webapp=/solr path=/select params={q=name:hard&wt=javabin&version=2} hits=2 status=0 QTime=0
 2023-12-12 17:54:57.490 INFO  (qtp1677207406-36) [ x:micoleccion] o.a.s.c.S.Request webapp=/solr path=/select params={q=name:hard&wt=javabin&version=2} hits=2 status=0 QTime=0
+2023-12-12 17:56:17.264 INFO  (ShutdownMonitor) [] o.e.j.s.Server Stopped Server@f9b7332{STOPPING}[10.0.13,sto=0]
+2023-12-12 17:56:17.266 INFO  (ShutdownMonitor) [] o.e.j.s.AbstractConnector Stopped ServerConnector@fd0e5b6{HTTP/1.1, (http/1.1, h2c)}{127.0.0.1:8983}
+2023-12-12 17:56:17.278 INFO  (ShutdownMonitor) [] o.a.s.c.CoreContainer Shutting down CoreContainer instance=1142653826
+2023-12-12 17:56:17.279 INFO  (coreCloseExecutor-18-thread-1) [ x:micoleccion] o.a.s.c.SolrCore CLOSING SolrCore org.apache.solr.core.SolrCore@176ef3fa micoleccion
+2023-12-12 17:56:17.280 INFO  (coreCloseExecutor-18-thread-1) [ x:micoleccion] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.core.micoleccion tag=SolrCore@176ef3fa
+2023-12-12 17:56:17.297 INFO  (coreCloseExecutor-18-thread-1) [ x:micoleccion] o.a.s.u.DirectUpdateHandler2 Committing on IndexWriter.close()  ... SKIPPED (unnecessary).
+2023-12-12 17:56:17.309 INFO  (ShutdownMonitor) [] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.node tag=null
+2023-12-12 17:56:17.320 INFO  (ShutdownMonitor) [] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.jvm tag=null
+2023-12-12 17:56:17.327 INFO  (ShutdownMonitor) [] o.a.s.m.SolrMetricManager Closing metric reporters for registry=solr.jetty tag=null
+2023-12-12 17:56:17.334 INFO  (ShutdownMonitor) [] o.e.j.s.h.ContextHandler Stopped o.e.j.w.WebAppContext@6ca320ab{solr-jetty-context.xml,/solr,null,STOPPED}{C:\Users\jhony\Desktop\UNI\23-24\MB\buscador\solr\server/solr-webapp/webapp}

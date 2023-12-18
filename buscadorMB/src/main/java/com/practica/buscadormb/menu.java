@@ -23,11 +23,12 @@ public class menu extends javax.swing.JFrame {
     /**
      * Creates new form menu
      */
-      SolrDocumentList docs;
+    SolrDocumentList docs;
+
     public menu() {
         initComponents();
         textInfo.setEditable(false);
-      
+
     }
 
     /**
@@ -129,14 +130,14 @@ public class menu extends javax.swing.JFrame {
                     QueryResponse response = solrClient.query(sQ);
                     // Procesar los resultados
                     System.out.println("Documentos que contienen '" + palabra + "':");
-                     docs = response.getResults();
+                    docs = response.getResults();
                     totalDocumentos.setText("Resultados encontrados: " + docs.size());
-                    String id,name;
+                    String id, name;
                     for (int i = 0; i < docs.size(); ++i) {
                         System.out.println(docs.get(i).getFieldValue("id"));
-                        
-                        textInfo.append("Resultado nº "+(i+1)+ " Id: " + docs.get(i).getFieldValue("id")+ " Name: " + docs.get(i).getFieldValue("name") + "\n");
-                        
+
+                        textInfo.append("Resultado nº " + (i + 1) + " Id: " + docs.get(i).getFieldValue("id") + " Name: " + docs.get(i).getFieldValue("name") + "\n");
+
                     }
                 } catch (Exception e) {
                 }
@@ -191,12 +192,6 @@ public class menu extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void limpiaPanel() {
-        if (docs !=null) {
-            for (int i = 0; i <docs.size(); i++) {
-                docs.remove(i);
-            }
-            docs=new SolrDocumentList();
-        }
-        textInfo.removeAll();
+        textInfo.setText("");
     }
 }
