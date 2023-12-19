@@ -26,7 +26,9 @@
           <Group type="102" attributes="0">
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <EmptySpace min="-2" pref="225" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="103" max="-2" attributes="0"/>
+                      <Component id="buscaEtiquetas" min="-2" pref="89" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="33" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
                           <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                           <Group type="102" attributes="0">
@@ -58,6 +60,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="palabraBusca" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="buscaBtn" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="buscaEtiquetas" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace pref="25" max="32767" attributes="0"/>
               <Component id="jScrollPane2" min="-2" pref="139" max="-2" attributes="0"/>
@@ -75,9 +78,6 @@
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="palabraBusca">
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="palabraBuscaActionPerformed"/>
-      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="buscaBtn">
       <Properties>
@@ -103,6 +103,19 @@
       </SubComponents>
     </Container>
     <Component class="javax.swing.JLabel" name="totalDocumentos">
+    </Component>
+    <Component class="javax.swing.JComboBox" name="buscaEtiquetas">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="name"/>
+            <StringItem index="1" value="id"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
     </Component>
   </SubComponents>
 </Form>

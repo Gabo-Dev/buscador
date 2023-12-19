@@ -46,16 +46,11 @@ public class menu extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         textInfo = new javax.swing.JTextArea();
         totalDocumentos = new javax.swing.JLabel();
+        buscaEtiquetas = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Buscador:");
-
-        palabraBusca.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                palabraBuscaActionPerformed(evt);
-            }
-        });
 
         buscaBtn.setText("Buscar");
         buscaBtn.addActionListener(new java.awt.event.ActionListener() {
@@ -68,6 +63,8 @@ public class menu extends javax.swing.JFrame {
         textInfo.setRows(5);
         jScrollPane2.setViewportView(textInfo);
 
+        buscaEtiquetas.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "name", "id" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -75,7 +72,9 @@ public class menu extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(225, 225, 225)
+                        .addGap(103, 103, 103)
+                        .addComponent(buscaEtiquetas, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(33, 33, 33)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
                             .addGroup(layout.createSequentialGroup()
@@ -98,7 +97,8 @@ public class menu extends javax.swing.JFrame {
                 .addGap(0, 0, 0)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(palabraBusca, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(buscaBtn))
+                    .addComponent(buscaBtn)
+                    .addComponent(buscaEtiquetas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -108,10 +108,6 @@ public class menu extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void palabraBuscaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_palabraBuscaActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_palabraBuscaActionPerformed
 
     private void buscaBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buscaBtnActionPerformed
         // TODO add your handling code here:
@@ -125,19 +121,20 @@ public class menu extends javax.swing.JFrame {
 
                 try ( SolrClient solrClient = new HttpSolrClient.Builder(solrUrl).build()) {
                     SolrQuery sQ = new SolrQuery();
-                    sQ.setQuery("name:" + palabra);
+                    sQ.setQuery(buscaEtiquetas.getSelectedItem().toString() + ":" + palabra);
 
                     QueryResponse response = solrClient.query(sQ);
                     // Procesar los resultados
                     System.out.println("Documentos que contienen '" + palabra + "':");
                     docs = response.getResults();
                     totalDocumentos.setText("Resultados encontrados: " + docs.size());
-                    String id, name;
                     for (int i = 0; i < docs.size(); ++i) {
-                        System.out.println(docs.get(i).getFieldValue("id"));
-
-                        textInfo.append("Resultado nº " + (i + 1) + " Id: " + docs.get(i).getFieldValue("id") + " Name: " + docs.get(i).getFieldValue("name") + "\n");
-
+                        if (docs.get(i).getFieldValue("name")==null) {
+                            textInfo.append("Resultado nº " + (i + 1)+": "+ docs.get(i));
+                        }
+                        else{
+                            textInfo.append("Resultado nº " + (i + 1) + " Id: " + docs.get(i).getFieldValue("id") + " Name: " + docs.get(i).getFieldValue("name") + "\n");
+                        }
                     }
                 } catch (Exception e) {
                 }
@@ -184,6 +181,7 @@ public class menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton buscaBtn;
+    private javax.swing.JComboBox<String> buscaEtiquetas;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField palabraBusca;
@@ -193,5 +191,6 @@ public class menu extends javax.swing.JFrame {
 
     private void limpiaPanel() {
         textInfo.setText("");
+        totalDocumentos.setText("");
     }
 }
